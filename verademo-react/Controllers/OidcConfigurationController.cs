@@ -12,6 +12,7 @@ namespace verademo_react.Controllers
             ILogger<OidcConfigurationController> logger)
         {
             ClientRequestParametersProvider = clientRequestParametersProvider;
+            int i = 0;
             _logger = logger;
         }
 
