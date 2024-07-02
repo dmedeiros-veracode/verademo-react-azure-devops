@@ -109,8 +109,30 @@ stages:
     parameters: 
       downloadArtifact: "WebApp_Debug"
 
+
   - template: jobs/veracode-sca-agent-job.yml@devops-scripts
-      
+
+- stage: Ticketing
+  jobs:
+  - job: Import_Security_Items
+    steps: 
+      - task: Veracode Flaw Importer@3
+        inputs:
+          ConnectionDetailsSelection: 'Service Connection'
+          AnalysisService: 'Veracode SaaS Connection'
+          veracodeAppProfile: '$(system.teamProject)'
+          sandboxName: 'Release Candidate'
+          scanType: 'Dynamic, Static, SCA'
+          importType: 'All Unmitigated Flaws Violating Policy'
+          workItemType: 'Bug'
+          area: '$(system.teamProject)'
+          overwriteAreaPathInWorkItemsOnImport: true
+          iterationPath: '$(system.teamProject)'
+          overwriteIterationPath: true
+          flawImportLimit: '1000'
+        
+
+
 # Deployment Stage of CI/CD Pipeline
 # - stage: Deployment
 
